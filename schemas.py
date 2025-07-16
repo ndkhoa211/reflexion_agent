@@ -7,17 +7,18 @@
 
 
 from typing import List
-from pydantic import BaseModel, Field
 
+from pydantic import BaseModel, Field
 
 
 class Reflection(BaseModel):
     missing: str = Field(description="Critique of what is missing.")
     superfluous: str = Field(description="Critique of what is superfluous.")
+
+
 # important note: this Reflection class is going to be used alongside with
 # the function calling feature, it'll ground the response from LLM to fill
 # up those values -> give us a very concise feedback from LLM
-
 
 
 # transform "Responder" agent's output into a pydantic object
@@ -30,4 +31,13 @@ class AnswerQuestion(BaseModel):
     reflection: Reflection = Field(description="Your reflection on the initial answer.")
     search_queries: List[str] = Field(
         description="1-3 search queries for researching improvements to address the critique of your current answer."
+    )
+
+
+# inherited from AnswerQuestion
+class ReviseAnswer(AnswerQuestion):
+    """Revise your original answer to your question."""
+
+    reference: List[str] = Field(
+        description="Citations motivating your updated answer."
     )

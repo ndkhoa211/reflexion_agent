@@ -108,24 +108,23 @@
 #     run_demo()
 
 
-
 import datetime
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from rich.console import Console
-from rich.panel import Panel
-from rich.markdown import Markdown
-from rich.pretty import Pretty  # ⬅️ pretty‑printer that never truncates
-
+from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers.openai_tools import (
     JsonOutputToolsParser,
     PydanticToolsParser,
 )
-from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.panel import Panel
+from rich.pretty import Pretty  # ⬅️ pretty‑printer that never truncates
 
 from schemas import AnswerQuestion, Reflection  # local pydantic models
 
@@ -160,14 +159,14 @@ first_responder_prompt_template = actor_prompt_template.partial(
     first_instruction="Provide a detailed ~250 words answer."
 )
 
-first_responder_chain = (
-    first_responder_prompt_template
-    | llm.bind_tools(tools=[AnswerQuestion], tool_choice="AnswerQuestion")
+first_responder_chain = first_responder_prompt_template | llm.bind_tools(
+    tools=[AnswerQuestion], tool_choice="AnswerQuestion"
 )
 
 # ----------------------------------------------------------------------------
 # 🚀  Helper
 # ----------------------------------------------------------------------------
+
 
 def run_demo() -> None:
     """Run a demo Q→A flow and pretty‑print every stage."""
@@ -195,7 +194,9 @@ def run_demo() -> None:
     parsed_result = pydantic_parser.invoke(raw_result)
     if isinstance(parsed_result, list):
         if not parsed_result:
-            raise ValueError("Pydantic parser returned an empty list – no tool calls found.")
+            raise ValueError(
+                "Pydantic parser returned an empty list – no tool calls found."
+            )
         parsed: AnswerQuestion = parsed_result[0]
     else:
         parsed: AnswerQuestion = parsed_result  # type: ignore[arg-type]
@@ -218,4 +219,3 @@ def run_demo() -> None:
 # ----------------------------------------------------------------------------
 if __name__ == "__main__":
     run_demo()
-
