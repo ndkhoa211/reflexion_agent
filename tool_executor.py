@@ -43,7 +43,7 @@ def run_queries(search_queries: list[str], **kwargs):
 
 
 # create a ToolNode object
-execute_tool = ToolNode(
+execute_tools = ToolNode(
     [
         StructuredTool.from_function(run_queries, name=AnswerQuestion.__name__),
         StructuredTool.from_function(run_queries, name=ReviseAnswer.__name__),

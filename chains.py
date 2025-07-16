@@ -28,6 +28,7 @@ parser_pydantic = PydanticToolsParser(
     tools=[AnswerQuestion]
 )  # take response from LLM, then transform it into AnswerQuestion object
 
+
 # RECALL:
 # the input for this "Responder" agent/node is the topic we want to write about
 # and the agent is going to write for us the initial response
@@ -77,7 +78,8 @@ first_responder_prompt_template = actor_prompt_template.partial(
 # thus grounding the response to the object that we want to receive
 # also pipe first_responder_prompt_template into LLM
 first_responder = first_responder_prompt_template | llm.bind_tools(
-    tools=[AnswerQuestion], tool_choice="AnswerQuestion"
+    tools=[AnswerQuestion],
+    tool_choice={"type": "function", "function": {"name": "AnswerQuestion"}},
 )
 
 
@@ -94,10 +96,11 @@ revise_instructions = """Revise your previous answer using the new information.
 
 
 # populate field {first_instruction} and create reviser chain
-reviser = (
-    actor_prompt_template.partial(first_instruction=revise_instructions)
-    | llm.bind_tools(tools=[AnswerQuestion], tool_choice="ReviseAnswer")
-    | parser_pydantic  # parse response as a pydantic object of AnswerQuestion
+reviser = actor_prompt_template.partial(
+    first_instruction=revise_instructions
+) | llm.bind_tools(
+    tools=[ReviseAnswer],
+    tool_choice={"type": "function", "function": {"name": "ReviseAnswer"}},
 )
 
 
@@ -110,7 +113,10 @@ if __name__ == "__main__":
     )
     chain = (
         first_responder_prompt_template
-        | llm.bind_tools(tools=[AnswerQuestion], tool_choice="AnswerQuestion")
+        | llm.bind_tools(
+            tools=[AnswerQuestion],
+            tool_choice={"type": "function", "function": {"name": "AnswerQuestion"}},
+        )
         | parser_pydantic  # parse response as a pydantic object of AnswerQuestion
     )
 
