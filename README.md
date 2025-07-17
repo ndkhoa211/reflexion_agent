@@ -173,9 +173,13 @@ flowchart TD
     START[Start] --> draft
     draft --> execute_tools
     execute_tools --> reviser
-    %% escape parens; leave no space after first "|" but ADD one after the second "|"
+    %% label with escaped parens
     reviser --|loop \(tool budget left\)| execute_tools
-    reviser --|done| END((End))
+    %% label “done” to the END node
+    reviser --|done| END
+
+    %% declare the END node (double‑circle) separately
+    END((End))
 
 ```
 
