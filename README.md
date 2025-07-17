@@ -164,25 +164,6 @@ All top‑level scripts call `load_dotenv()` so the keys are read automatically 
 
 Initial pass includes the *draft* node; subsequent passes skip it — cycles are strictly **reviser ⇄ execute\_tools** after the first draft. This corrects earlier docs that implied the *draft* node was re‑invoked each round. ([raw.githubusercontent.com](https://raw.githubusercontent.com/ndkhoa211/reflexion_agent/main/main.py))
 
-### Mermaid Sketch
-
-Below is a conceptual flow; the repo also exports a rendered diagram (`reflexion_agent.png`) when you run `main.py`.
-
-```mermaid
-flowchart TD
-    START[Start] --> draft
-    draft --> execute_tools
-    execute_tools --> reviser
-    %% label with escaped parens
-    reviser --|loop \(tool budget left\)| execute_tools
-    %% label “done” to the END node
-    reviser --|done| END
-
-    %% declare the END node (double‑circle) separately
-    END((End))
-
-```
-
 ---
 
 ## Message Schema & Tool Calls
