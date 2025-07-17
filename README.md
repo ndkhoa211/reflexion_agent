@@ -173,10 +173,9 @@ flowchart TD
     START[Start] --> draft
     draft --> execute_tools
     execute_tools --> reviser
-    %% escape parens inside the label
-    reviser --| loop \(tool budget left\) | execute_tools
-    reviser --| done | END((End))
-
+    %% label, no spaces around pipes, parens escaped
+    reviser --|loop \(tool budget left\)|execute_tools
+    reviser --|done|END((End))
 ```
 
 ---
