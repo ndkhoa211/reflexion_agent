@@ -50,7 +50,7 @@ builder.set_entry_point("draft")
 graph = builder.compile()
 
 # export mermaid graph in .png
-graph.get_graph().draw_mermaid_png(output_file_path="reflection_agent.png")
+graph.get_graph().draw_mermaid_png(output_file_path="reflexion_agent.png")
 
 
 console = Console()
