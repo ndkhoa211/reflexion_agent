@@ -26,7 +26,6 @@ A minimal, inspectable **Reflexion-style research + self‑critique + revision a
 6. [Environment Variables](#environment-variables)
 7. [LangGraph Workflow (Corrected)](#langgraph-workflow-corrected)
    * [Execution Loop](#execution-loop)
-   * [Mermaid Sketch](#mermaid-sketch)
 8. [Message Schema & Tool Calls](#message-schema--tool-calls)
 9. [Running the Demo Scripts](#running-the-demo-scripts)
 10. [File‑by‑File Guide](#file-by-file-guide)
