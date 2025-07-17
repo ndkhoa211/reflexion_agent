@@ -170,11 +170,12 @@ Below is a conceptual flow; the repo also exports a rendered diagram (`reflexion
 
 ```mermaid
 flowchart TD
-    START --> draft
+    START[Start] --> draft
     draft --> execute_tools
     execute_tools --> reviser
-    reviser -->|loop (tool budget left)| execute_tools
-    reviser -->|done| END
+    %% label needs quotes because of spaces & parentheses
+    reviser --| "loop (tool budget left)" | execute_tools
+    reviser --| done | END((End))
 ```
 
 ---
